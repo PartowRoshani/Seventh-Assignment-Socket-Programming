@@ -7,11 +7,20 @@ import java.util.Scanner;
 public class Client {
     // TODO: Declare variables for socket input/output streams
     private static String username;
+    private static PrintWriter out;
+    private static BufferedReader in;
+    private static InputStream inputStream;
+    private static OutputStream outputStream;
+
+
     public static void main(String[] args) throws Exception {
 
         try (Socket socket = new Socket("localhost", 12345)) {
             //TODO: Use the socket input and output streams as needed
-
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
 
             Scanner scanner = new Scanner(System.in);
 
@@ -31,6 +40,14 @@ public class Client {
 
                 // TODO: Receive and check the server's login response
                 // TODO: Set 'loggedIn = true' if credentials are correct; otherwise, prompt again
+
+                String response = in.readLine();
+                if ("LOGIN_SUCCESS".equals(response)) {
+                    System.out.println("Login successful!");
+                    loggedIn = true;
+                } else {
+                    System.out.println("Login failed. Try again.");
+                }
             }
 
             // --- ACTION MENU LOOP ---
@@ -66,11 +83,14 @@ public class Client {
 
     private static void sendLoginRequest(String username, String password) {
         //TODO: send the login request
+        out.println("LOGIN:" + username + ":" + password);
     }
     private static void enterChat(Scanner scanner) throws IOException {
         System.out.print("You have entered the chat ");
 
 
+        Thread resiverThread = new Thread(new ClientReceiver(in));
+        resiverThread.start();
         //TODO: Create and start ClientReceiver thread to continuously get new messages from server
         String message_string = "";
         while (!message_string.equalsIgnoreCase("/exit")){
@@ -85,6 +105,7 @@ public class Client {
 
     private static void sendChatMessage(String message_to_send) throws IOException {
         //TODO: send the chat message
+        out.println(message_to_send);
     }
 
     private static void uploadFile(Scanner scanner) throws IOException {
