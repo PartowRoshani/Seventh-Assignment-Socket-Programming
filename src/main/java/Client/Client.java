@@ -117,7 +117,7 @@ public class Client {
     private static void uploadFile(Scanner scanner) throws IOException {
 
         //TODO: list all files in the resources/Client/<username> folder
-        File userDirectory = new File("C:\\Users\\User\\Desktop\\AP\\Seventh-Assignment-Socket-Programming\\src\\main\\resources\\Client\\user1" + username);
+        File userDirectory = new File("C:\\Users\\User\\Desktop\\AP\\Seventh-Assignment-Socket-Programming\\src\\main\\resources\\Client\\" + username);
         File[] files = userDirectory.listFiles((dir, name) -> new File(dir, name).isFile());
 
         if (files == null || files.length == 0) {
@@ -196,7 +196,7 @@ public class Client {
         out.println("DOWNLOAD_FILE "+fileNames[choice]);
 
         long fileSize = Long.parseLong(in.readLine());
-        File userDir = new File("resources/Client/" + username);
+        File userDir = new File("C:\\Users\\User\\Desktop\\AP\\Seventh-Assignment-Socket-Programming\\src\\main\\resources\\Client\\" + username);
         if (!userDir.exists())
         {
             userDir.mkdirs();
