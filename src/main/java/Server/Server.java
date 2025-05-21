@@ -19,6 +19,22 @@ public class Server {
     public static void main(String[] args) throws Exception {
         // TODO: Create a ServerSocket listening on a port (e.g., 12345)
 
+        int PORT = 12345;
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            System.out.println("Server connected ..." );
+
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("New client connected: " + clientSocket.getInetAddress());
+
+                ClientHandler handler = new ClientHandler(clientSocket);
+                clients.add(handler);
+                new Thread(handler).start();
+            }
+        } catch (Exception e) {
+            System.out.println("Server error: " + e.getMessage());
+            e.printStackTrace();
+        }
         // TODO: Accept incoming client connections in a loop
         //       For each connection:
         //       - Create a new ClientHandler object
