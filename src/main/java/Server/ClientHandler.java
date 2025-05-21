@@ -108,7 +108,7 @@ public class ClientHandler implements Runnable {
     private void sendFileList(){
         // TODO: List all files in the server directory
         // TODO: Send a message containing file names as a comma-separated string
-        File dir = new File("resources/Server/Files");
+        File dir = new File("C:\\Users\\User\\Desktop\\AP\\Seventh-Assignment-Socket-Programming\\src\\main\\resources\\Server\\Files");
         File[] files = dir.listFiles();
         if (files == null || files.length == 0)
         {
@@ -124,7 +124,7 @@ public class ClientHandler implements Runnable {
         // TODO: Send file name and size to client
         // TODO: Send file content as raw bytes
         try {
-            File file = new File("resources/Server/Files/" + fileName);
+            File file = new File("C:\\Users\\User\\Desktop\\AP\\Seventh-Assignment-Socket-Programming\\src\\main\\resources\\Server\\Files" + fileName);
             if (!file.exists()) {
                 sendMessage("-1");
                 return;
@@ -173,7 +173,7 @@ public class ClientHandler implements Runnable {
     }
     private void saveUploadedFile(String filename, byte[] data) throws IOException {
         // TODO: Save the byte array to a file in the Server's resources folder
-        File dir = new File("resources/Server/Files");
+        File dir = new File("C:\\Users\\User\\Desktop\\AP\\Seventh-Assignment-Socket-Programming\\src\\main\\resources\\Server\\Files");
         if (!dir.exists()) dir.mkdirs();
 
         FileOutputStream fos = new FileOutputStream(new File(dir, filename));
